@@ -1,0 +1,16 @@
+node_modules
+dist
+.output
+.vercel
+.nitro
+*.log
+screenshots
+artifacts
+attachments
+.grok/*
+!.grok/app-env.json
+.DS_Store
+.env
+.env.*
+*.tsbuildinfo
+.node_modules.lock

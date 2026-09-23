@@ -1,0 +1,360 @@
+[
+  {
+    "label": "About",
+    "href": "/about.php",
+    "children": [
+      {
+        "label": "Our Values",
+        "href": "/firmprofile.php"
+      },
+      {
+        "label": "Your Fresh Start Solutions LLC Ranked #1 in Camden Accountant Rankings for 2026",
+        "href": "/award-recognition.php"
+      }
+    ]
+  },
+  {
+    "label": "Services",
+    "href": "/services.php",
+    "children": [
+      {
+        "label": "Services For Individuals",
+        "href": "/indservices.php",
+        "children": [
+          {
+            "label": "Personal Financial Planning",
+            "href": "/personalfinplan.php"
+          },
+          {
+            "label": "Estate Planning",
+            "href": "/estateplan.php"
+          },
+          {
+            "label": "Wealth Management",
+            "href": "/wealth-management.php"
+          }
+        ]
+      },
+      {
+        "label": "Tax Services",
+        "href": "/taxservices.php",
+        "children": [
+          {
+            "label": "Individual Tax Preparation",
+            "href": "/taxprep.php"
+          },
+          {
+            "label": "Tax Preparation for Businesses",
+            "href": "/taxprep-business.php"
+          },
+          {
+            "label": "Tax Planning",
+            "href": "/taxplanning.php"
+          },
+          {
+            "label": "Estate & Trust Tax Services",
+            "href": "/estates-trusts-tax.php"
+          },
+          {
+            "label": "Cryptocurrency Accounting Services",
+            "href": "/cryptocurrency.php"
+          }
+        ]
+      },
+      {
+        "label": "Business Services",
+        "href": "/bizservices.php",
+        "children": [
+          {
+            "label": "Small Business Accounting",
+            "href": "/smallbiz.php"
+          },
+          {
+            "label": "Bookkeeping Services",
+            "href": "/bookkeeping.php"
+          },
+          {
+            "label": "Payroll",
+            "href": "/payrollservice.php"
+          },
+          {
+            "label": "Part-Time CFO Services",
+            "href": "/cfoservices.php"
+          },
+          {
+            "label": "Audits - Reviews - Compilations",
+            "href": "/auditing.php"
+          },
+          {
+            "label": "Forensic Accounting",
+            "href": "/forensic_accounting.php"
+          },
+          {
+            "label": "Bank Financing",
+            "href": "/bankfinancing.php"
+          },
+          {
+            "label": "Business Valuation",
+            "href": "/valuation.php"
+          },
+          {
+            "label": "Business Advisory Services",
+            "href": "/bizplan.php"
+          },
+          {
+            "label": "Financial Planning for Businesses",
+            "href": "/financial-planning-business.php"
+          },
+          {
+            "label": "Succession Planning",
+            "href": "/succession.php"
+          },
+          {
+            "label": "New Business Formation",
+            "href": "/formation.php"
+          },
+          {
+            "label": "Non-Profit Organizations",
+            "href": "/nonprofit.php"
+          },
+          {
+            "label": "Internal Controls",
+            "href": "/internalcontrols.php"
+          }
+        ]
+      },
+      {
+        "label": "Tax Relief",
+        "href": "/irs-problemshome.php",
+        "children": [
+          {
+            "label": "IRS Audit Representation",
+            "href": "/irs-representation.php"
+          },
+          {
+            "label": "Non-Filed Tax Returns",
+            "href": "/irs-nonfiledreturns.php"
+          },
+          {
+            "label": "Back Taxes Owed",
+            "href": "/irs-backtaxes.php"
+          },
+          {
+            "label": "Payroll Tax Problems",
+            "href": "/irs-payrolltax.php"
+          },
+          {
+            "label": "IRS Liens",
+            "href": "/irs-taxliens.php"
+          },
+          {
+            "label": "IRS Levies",
+            "href": "/irs-taxlevies.php"
+          },
+          {
+            "label": "IRS Payment Plan",
+            "href": "/irs-paymentplan.php"
+          },
+          {
+            "label": "Offer In Compromise",
+            "href": "/irs-offercompromise.php"
+          },
+          {
+            "label": "Innocent Spouse Relief",
+            "href": "/irs-spouse.php"
+          }
+        ]
+      },
+      {
+        "label": "Services for QuickBooks",
+        "href": "/qbmain.php",
+        "children": [
+          {
+            "label": "Setup for QuickBooks",
+            "href": "/quickbookssetup.php"
+          }
+        ]
+      },
+      {
+        "label": "Industries",
+        "href": "/industries.php",
+        "children": [
+          {
+            "label": "Construction",
+            "href": "/construction.php"
+          },
+          {
+            "label": "Dentists",
+            "href": "/dentists.php"
+          },
+          {
+            "label": "Healthcare",
+            "href": "/medical-practice.php"
+          },
+          {
+            "label": "Hospitality",
+            "href": "/hospitality.php"
+          },
+          {
+            "label": "Law Firms",
+            "href": "/lawfirms.php"
+          },
+          {
+            "label": "Manufacturers",
+            "href": "/manufacturers.php"
+          },
+          {
+            "label": "Marketing",
+            "href": "/marketing.php"
+          },
+          {
+            "label": "Non-Profit",
+            "href": "/non-profit.php"
+          },
+          {
+            "label": "Real Estate",
+            "href": "/realestate.php"
+          },
+          {
+            "label": "Retail",
+            "href": "/retail.php"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Resources",
+    "href": "/resources.php",
+    "children": [
+      {
+        "label": "Newsletter",
+        "href": "/newsletter.php",
+        "children": [
+          {
+            "label": "This Month's Newsletter",
+            "href": "/newsletter.php"
+          },
+          {
+            "label": "Previous Newsletters",
+            "href": "/archive.php"
+          }
+        ]
+      },
+      {
+        "label": "Guides",
+        "href": "/reports.php",
+        "children": [
+          {
+            "label": "ITIN Numbers Guide",
+            "href": "/custom.php"
+          },
+          {
+            "label": "Life Events",
+            "href": "/life-events.php"
+          },
+          {
+            "label": "Business Strategies",
+            "href": "/business-strategies.php"
+          },
+          {
+            "label": "Investment Strategies",
+            "href": "/investment-strategies.php"
+          },
+          {
+            "label": "Tax Strategies for Business Owners",
+            "href": "/taxstrategies-businessowners.php"
+          },
+          {
+            "label": "Tax Strategies for Individuals",
+            "href": "/taxstrategies-individuals.php"
+          },
+          {
+            "label": "Frequently Asked Questions",
+            "href": "/frequently-asked-questions.php"
+          }
+        ]
+      },
+      {
+        "label": "Financial Calculators",
+        "href": "/calc-section.php"
+      },
+      {
+        "label": "Client Portal",
+        "href": "/clientportal.php"
+      },
+      {
+        "label": "SecureSend",
+        "href": "/quick-send.php"
+      },
+      {
+        "label": "Internet Links",
+        "href": "/links.php"
+      },
+      {
+        "label": "Return, Refund, and Delivery Policy",
+        "href": "/rrdpolicy.php"
+      },
+      {
+        "label": "Tax Center",
+        "href": "/taxcenter2.php",
+        "children": [
+          {
+            "label": "Track Your Refund",
+            "href": "/taxrefunds.php"
+          },
+          {
+            "label": "Tax Due Dates",
+            "href": "/taxduedates.php"
+          },
+          {
+            "label": "Tax Rates",
+            "href": "/taxrates2.php"
+          },
+          {
+            "label": "IRS Tax Forms and Publications",
+            "href": "/taxpublications.php"
+          },
+          {
+            "label": "Record Retention Guide",
+            "href": "/taxretention.php"
+          },
+          {
+            "label": "State Tax Forms",
+            "href": "/statetaxforms.php"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Ebooks",
+    "href": "/Ebooks.php",
+    "children": [
+      {
+        "label": "Strategic Scaling E-Book",
+        "href": "/StrategicScalingE-Book.php"
+      },
+      {
+        "label": "Business Survival Playbooks",
+        "href": "/business-survival-playbooks.php"
+      }
+    ]
+  },
+  {
+    "label": "NEW 2025-26 Tax Updates",
+    "href": "/updates.php"
+  },
+  {
+    "label": "Contact",
+    "href": "/contact.php"
+  },
+  {
+    "label": "Reviews",
+    "href": "/reviews.php"
+  },
+  {
+    "label": "Pay My Fee",
+    "href": "/paymyfee.php"
+  }
+]
