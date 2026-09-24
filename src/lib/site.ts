@@ -51,7 +51,7 @@ export function pageKey(pathname: string, search: string) {
 
 export function getPage(pathname: string, search: string): PageRec | undefined {
   const key = pageKey(pathname, search);
-  return site.pages[key] ?? (search ? undefined : site.pages[pathname]);
+  return site.pages[key] ?? site.pages[pathname];
 }
 
 function pathOf(href: string) {

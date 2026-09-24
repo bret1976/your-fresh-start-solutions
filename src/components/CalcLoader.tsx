@@ -1,33 +1,18 @@
-import { useEffect } from "react";
+import { CalculatorApp } from "@/components/CalculatorApp";
+import { getCalc } from "@/lib/tools/engine";
 
 export function CalcLoader({ search }: { search: string }) {
-  const calc = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search).get("calc") || "";
-
-  useEffect(() => {
-    document.title = calc ? `Calculator ${calc}` : "Financial Calculator";
-    const existing = document.getElementById("calcxml-loader");
-    existing?.remove();
-    if (!calc) return;
-    const s = document.createElement("script");
-    s.id = "calcxml-loader";
-    s.src = `https://www.calcxml.com/scripts/loadCalc.js?calcTarget=${encodeURIComponent(calc)}&embed=2&skn=481`;
-    document.body.appendChild(s);
-    return () => {
-      s.remove();
-    };
-  }, [calc]);
-
+  const calcId = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search).get("calc") || "";
+  const calc = getCalc(calcId);
   if (!calc) {
     return (
       <main className="calc-shell">
-        <p>This calculator link is missing its id.</p>
+        <p>This calculator link is missing or out of date.</p>
+        <p>
+          <a href="/calc-section.php">Back to the calculators</a>
+        </p>
       </main>
     );
   }
-
-  return (
-    <main className="calc-shell">
-      <div id="calc" />
-    </main>
-  );
+  return <CalculatorApp calc={calc} />;
 }

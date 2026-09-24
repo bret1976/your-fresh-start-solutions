@@ -1,16 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "@tanstack/react-router";
-import {
-  ADDRESS,
-  EMAIL,
-  NEWSLETTER_ACTION,
-  PHONE,
-  PHONE_TEL,
-  PORTAL_LOGIN,
-  nav,
-  site,
-  type NavItem,
-} from "@/lib/site";
+import { ADDRESS, EMAIL, PHONE, PHONE_TEL, PORTAL_LOGIN, nav, site, type NavItem } from "@/lib/site";
+import { draftFromForm } from "@/lib/tools/mail";
 
 export function TextLink({
   href,
@@ -118,32 +109,57 @@ function DesktopNav() {
 }
 
 export function SiteShell({ children, variant }: { children: ReactNode; variant: "home" | "internal" }) {
+  const router = useRouter();
   const [menu, setMenu] = useState(false);
   const [modal, setModal] = useState<null | "consult" | "login" | "news">(null);
-  const [notice, setNotice] = useState(false);
+  const [notice, setNotice] = useState<null | { title: string; body: string; mailto?: string; text?: string }>(null);
 
   useEffect(() => {
     function onSubmit(e: Event) {
       const form = e.target as HTMLFormElement;
       if (!(form instanceof HTMLFormElement)) return;
-      if (form.dataset.unwired === "feedbackmail") {
+      const action = form.getAttribute("action") || "";
+      if (form.dataset.siteSearch === "1" || action.includes("google.com/search")) {
         e.preventDefault();
-        setNotice(true);
-      }
-      if (form.dataset.siteSearch === "1") {
         const input = form.querySelector('input[name="q"]') as HTMLInputElement | null;
-        if (input) {
-          const raw = input.value.trim();
-          if (!raw.toLowerCase().startsWith("site:")) {
-            input.value = `site:yourfreshstartsolutions.com ${raw}`;
-          }
-        }
+        const raw = (input?.value || "").replace(/^site:yourfreshstartsolutions\.com\s*/i, "").trim();
+        void router.navigate({ href: `/search.php?q=${encodeURIComponent(raw)}` });
+        return;
       }
+      const newsletter =
+        form.dataset.localNewsletter === "1" || action.includes("cpaemailmarketing.com") || !!form.querySelector('input[name="un"]');
+      const inquiry = form.dataset.unwired === "feedbackmail";
+      if (!newsletter && !inquiry) return;
+      e.preventDefault();
+      const draft = draftFromForm(form, newsletter ? "newsletter" : "inquiry");
+      if (!draft.ok) {
+        setNotice({ title: "Check the form", body: draft.error });
+        return;
+      }
+      if (draft.silent) {
+        setNotice({
+          title: newsletter ? "You are on the list" : "Message ready",
+          body: "Thank you.",
+        });
+        return;
+      }
+      setNotice({
+        title: newsletter ? "Newsletter request is ready" : "Your message is ready",
+        body: `Nothing is stored on this website. Your email program will open a message to ${EMAIL}. Review it and press send. If no email program opens, copy the message and send it yourself.`,
+        mailto: draft.mailto,
+        text: draft.text,
+      });
+      window.location.href = draft.mailto;
     }
     function onClick(e: MouseEvent) {
       const el = (e.target as HTMLElement | null)?.closest("a");
       if (!el) return;
       const href = el.getAttribute("href") || "";
+      if (el.dataset.localPrint === "1" || href.includes("cpasitesolutions.com/content/newsletter")) {
+        e.preventDefault();
+        window.print();
+        return;
+      }
       if (href === "#modalConsult" || href === "#modalLogin" || href === "#modalSubscribe") {
         e.preventDefault();
         setModal(href === "#modalLogin" ? "login" : href === "#modalSubscribe" ? "news" : "consult");
@@ -155,7 +171,7 @@ export function SiteShell({ children, variant }: { children: ReactNode; variant:
       document.removeEventListener("submit", onSubmit, true);
       document.removeEventListener("click", onClick);
     };
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     document.body.style.overflow = menu || modal || notice ? "hidden" : "";
@@ -291,14 +307,30 @@ export function SiteShell({ children, variant }: { children: ReactNode; variant:
       ) : null}
 
       {notice ? (
-        <div className="modal-layer" role="presentation" onClick={() => setNotice(false)}>
+        <div className="modal-layer" role="presentation" onClick={() => setNotice(null)}>
           <div className="modal-card" role="alertdialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
-            <button type="button" className="modal-x" onClick={() => setNotice(false)} aria-label="Close">
+            <button type="button" className="modal-x" onClick={() => setNotice(null)} aria-label="Close">
               ×
             </button>
-            <h2>Nothing was sent</h2>
-            <p>Nothing was sent. This preview is not connected to the firm’s email form.</p>
-            <button type="button" className="btn btn-green" onClick={() => setNotice(false)}>
+            <h2>{notice.title}</h2>
+            <p>{notice.body}</p>
+            {notice.mailto ? (
+              <p className="notice-actions">
+                <a className="btn btn-green" href={notice.mailto}>
+                  Open email
+                </a>
+                <button
+                  type="button"
+                  className="btn btn-navy"
+                  onClick={() => {
+                    void navigator.clipboard?.writeText(notice.text || "");
+                  }}
+                >
+                  Copy message
+                </button>
+              </p>
+            ) : null}
+            <button type="button" className="btn btn-navy" onClick={() => setNotice(null)}>
               Close
             </button>
           </div>
@@ -314,6 +346,7 @@ function ConsultForm() {
       <h2>Contact Us</h2>
       <form data-unwired="feedbackmail" action="#" method="post">
         <input name="recipient" value={EMAIL} type="hidden" />
+        <input className="hp" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
         <label>
           Name
           <input name="Name" required autoComplete="name" />
@@ -364,18 +397,17 @@ function NewsForm() {
   return (
     <>
       <h2>Newsletter</h2>
-      <form method="post" action={NEWSLETTER_ACTION}>
-        <input type="hidden" name="function" value="customer2" />
-        <input type="hidden" name="un" value="yourfres" />
-        <input type="hidden" name="custom5" value="yourfres" />
+      <form method="post" action="#" data-local-newsletter="1">
+        <input className="hp" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
         <label>
           Email
           <input name="Email" type="email" required placeholder="Enter your email address" />
         </label>
-        <button className="btn btn-green" type="submit" name="submit" value="Subscribe">
+        <button className="btn btn-green" type="submit">
           Subscribe
         </button>
       </form>
+      <p>The request opens an email to the firm. It is not stored on this website.</p>
     </>
   );
 }

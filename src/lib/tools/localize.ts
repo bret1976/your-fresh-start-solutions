@@ -1,0 +1,26 @@
+const FIRM = "https://www.yourfreshstartsolutions.com";
+
+export function localizeHtml(html: string): string {
+  let out = html;
+  out = out.replace(/<\?(?:php|=)?[\s\S]*?\?>/g, "");
+  out = out.replace(new RegExp(FIRM.replace(/[.]/g, "\\."), "gi"), "");
+  out = out.replace(/https?:\/\/www\.yourfreshstartsolutions\.com/gi, "");
+  out = out.replace(/<script\b[^>]*src=["'][^"']*(?:acctsite\.com|calcxml\.com|cpasitesolutions\.com)[^"']*["'][^>]*>\s*<\/script>/gi, "");
+  out = out.replace(/action=["']https?:\/\/www\.cpaemailmarketing\.com[^"']*["']/gi, 'action="#" data-local-newsletter="1"');
+  out = out.replace(/href=["']https?:\/\/www\.cpasitesolutions\.com\/content\/newsletter\/[^"']*["']/gi, 'href="#print" data-local-print="1"');
+  out = out.replace(
+    /Online information is stored on secure servers located in <a href="[^"]*">CPA Website Solutions<\/a> SOC 1 certified datacenters\./,
+    "Messages sent from this website are delivered by email to the firm. They are not stored in a public database on the site.",
+  );
+  out = out.replace(/href=["']https?:\/\/www\.cpasitesolutions\.com["']/gi, 'href="/clientportal.php"');
+  out = out.replace(/<img\b[^>]*securimage[^>]*>/gi, "");
+  out = out.replace(/action=["']https?:\/\/www\.google\.com\/search["']/gi, 'action="/search.php"');
+  out = out.replace(/onclick="clickclear\([^"]*\)"/gi, "");
+  out = out.replace(/onblur="clickrecall\([^"]*\)"/gi, "");
+  out = out.replace(/value=["']E-Mail["']/gi, 'placeholder="Email" value=""');
+  out = out.replace(
+    /href=["']https?:\/\/www\.acctsite\.com\/articles\/i-9\.pdf["']/gi,
+    'href="https://www.uscis.gov/i-9"',
+  );
+  return out;
+}

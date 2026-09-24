@@ -1,7 +1,10 @@
 import { useEffect, useRef } from "react";
 import { HelpBand } from "@/components/HomePage";
+import { SearchResults } from "@/components/SearchResults";
 import { TextLink } from "@/components/SiteShell";
 import { EMAIL, PAYCONEX, PORTAL_REGISTER, getPage, sectionFor, site } from "@/lib/site";
+import { localizeHtml } from "@/lib/tools/localize";
+import { taxWidgetHtml, taxWidgetSelector } from "@/lib/tools/tax-center";
 
 export function InnerPage({ pathname, search }: { pathname: string; search: string }) {
   const page = getPage(pathname, search);
@@ -9,6 +12,8 @@ export function InnerPage({ pathname, search }: { pathname: string; search: stri
   const copyRef = useRef<HTMLDivElement>(null);
   const title = page?.title || "Your Fresh Start Solutions LLC";
   const hero = page?.hero || title.replace(/^Your Fresh Start Solutions LLC \| /, "").replace(/ Page$/, "");
+  const html = page?.html ? localizeHtml(page.html) : "";
+  const query = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search).get("q") || "";
 
   useEffect(() => {
     document.title = title;
@@ -28,13 +33,22 @@ export function InnerPage({ pathname, search }: { pathname: string; search: stri
     if (!root) return;
     const scripts = [...root.querySelectorAll("script")];
     for (const old of scripts) {
+      if (old.src && /^https?:/i.test(old.src)) {
+        old.remove();
+        continue;
+      }
       const s = document.createElement("script");
-      if (old.src) s.src = old.src;
-      else s.text = old.text;
+      s.text = old.text;
       s.async = false;
       old.replaceWith(s);
     }
-  }, [page?.html, pathname, search]);
+    const selector = taxWidgetSelector(pathname);
+    const widget = taxWidgetHtml(pathname);
+    if (selector && widget) {
+      const slot = root.querySelector(selector);
+      if (slot) slot.innerHTML = widget;
+    }
+  }, [html, pathname, search]);
 
   return (
     <>
@@ -63,11 +77,12 @@ export function InnerPage({ pathname, search }: { pathname: string; search: stri
       </div>
       <div className="wrap page-layout">
         <article className="page-copy" ref={copyRef}>
-          {page && !page.missing && page.html ? (
-            <div dangerouslySetInnerHTML={{ __html: page.html }} />
+          {page && !page.missing && html ? (
+            <div dangerouslySetInnerHTML={{ __html: html }} />
           ) : (
             <h1>Page not found</h1>
           )}
+          {pathname === "/search.php" ? <SearchResults query={query} /> : null}
         </article>
         <aside className="page-side">
           {section ? (
@@ -86,6 +101,7 @@ export function InnerPage({ pathname, search }: { pathname: string; search: stri
             <p className="side-h">Contact Us</p>
             <form data-unwired="feedbackmail" action="#" method="post">
               <input name="recipient" value={EMAIL} type="hidden" />
+              <input className="hp" name="company_website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
               <label>
                 Name
                 <input name="Name" autoComplete="name" />

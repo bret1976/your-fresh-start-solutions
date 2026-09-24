@@ -1,43 +1,36 @@
-# Your Fresh Start Solutions — preview checklist
+# Your Fresh Start Solutions — what moves with the domain
 
-This is a public-page copy of https://www.yourfreshstartsolutions.com/.
-The live domain, email, client accounts, and payment accounts were not changed.
+The public pages, wording, and paths are copied from the current site. The tools below now run on this site, so canceling CPA Site Solutions does not take them with it.
 
-## Completed public pages
+## Replaced on this site
 
-Homepage, About, Our Values, 2026 ranking, Services and the individual, tax, business, QuickBooks, tax relief, and industry pages, Resources (newsletter, eight archived issues, guides, calculators index and categories, links, refund policy), Tax Center pages, Ebooks, 2025–26 tax updates, Contact, Reviews, Pay My Fee, Client Portal, SecureSend, Search, Site Map, Privacy, Disclaimer, and Security Measures.
+- Financial calculators. All 147 calculators open from the same `/calcloader.php?calc=` links and compute on this site. They are planning illustrations, not a filing product. You can send tighter rules later and they can be adjusted.
+- Newsletter signup. The box and the popup no longer post to CPA email marketing. They open an email to advisor@yourfreshstartsolutions.com so the firm can add the address to whatever list you choose. Messages are not stored in a public database.
+- Contact and consultation forms, including the sidebar and the service-page forms. Same email handoff. The old image captcha on the CPA host is not used.
+- Newsletter print. The old CPA print link prints this page instead.
+- Newsletter RSS. `/rssfeed.php` is served from the archived issues already on this site.
+- Search. The search box searches these pages instead of Google limited to the old domain.
+- Tax Rates, Tax Due Dates, IRS forms and publications, Record Retention, and State Tax Forms. The lists are on this site. Due dates are the next 12 months of common federal dates. Rates and limits are the 2026 IRS figures. State links go to each state’s own tax agency.
+- Links that pointed at www.yourfreshstartsolutions.com now stay on this site, so they keep working after the domain moves.
+- The privacy page no longer says the website is stored in a CPA Site Solutions datacenter.
 
-Wording, service names, address, phone, and email were copied from the live pages. Paths ending in `.php` were kept.
+## Still the firm’s own accounts — leave these
 
-## Still using the current outside services
+These are not CPA website widgets. They should stay linked.
 
-These are linked, not rebuilt:
+- Pay My Fee card page at Bluefin/PayConex
+- Cash App and Venmo on the Pay My Fee page
+- Gumroad ebooks
+- Facebook and LinkedIn
+- The Google Map on the contact page
+- The SecureSend YouTube video
 
-- Client portal login: https://www.securefirmportal.com/Account/Login/69667
-- Portal registration: https://www.securefirmportal.com/Account/Register/69667
-- Portal payment button on Pay My Fee: same login with `returnURL=/Launch/Payment`
-- Hero “Pay My Fee” button: Bluefin/PayConex page `aid=120615818311` `id=204271` at secure.payconex.net
-- Cash App: https://cash.app/$Yourfreshstart43
-- Venmo: the QR and link already on the Pay My Fee page
-- Newsletter signup: https://www.cpaemailmarketing.com/client/campsub.php (`un=yourfres`)
-- Calculators: CalcXML, opened from `/calcloader.php?calc=...` the same way the current site does
-- Search: Google, limited to `site:yourfreshstartsolutions.com` (the live domain, not this preview)
-- Newsletter RSS: https://www.yourfreshstartsolutions.com/rssfeed.php
-- Map on the contact page: the existing Google Maps embed
-- SecureSend video: the existing YouTube embed. Uploading a file is done in the portal, not on a form on that page.
+## Still outside this website
 
-## Needs your decision before the old site can be turned off
+- Client portal login, registration, and the portal payment path at securefirmportal.com. That is the CPA portal product. Moving the website domain does not move client logins, documents, or portal billing. Replacing the portal is a separate project.
+- Matomo analytics was not copied.
+- `taxproblems.php` is still the same 404 the current site has. The tax relief section that exists is `irs-problemshome.php`.
 
-1. Email forms. Contact, consultation, sidebar, and several service pages post to `feedbackmail.php` on the current host. In this preview those forms do not send, and they do not show a success message. A new mailbox or form address is needed.
-2. CAPTCHA. The images still load from the live site’s `securimage` script. They cannot be checked without that server.
-3. Client portal and payments. Accounts stay at CPA Site Solutions / Secure Firm Portal, and card payments stay at Bluefin/PayConex. Canceling CPA Site Solutions would break login, registration, and the portal payment path.
-4. Newsletter list. Signups still go to CPA email marketing. That list has to move or stay before that account is closed.
-5. Tax Center widgets. Tax Rates, IRS forms, state forms, and the record retention guide are filled in by scripts on acctsite.com. Those addresses answered with a security challenge when they were fetched, so the lists can render blank. Tax due dates are the same kind of outside script (a rolling 12-month loader). None of those lists were rewritten or invented.
-6. Homepage “Tax Problems” goes to `taxproblems.php`. That address is a 404 on the live site. The Tax Relief section that does exist is `irs-problemshome.php`. The broken link was kept.
-7. Pay My Fee credit-card image. On the live page the first card image is wrapped in a link whose address is a broken PHP snippet (`<?php echo $config[`). The image is on the preview. The dead link is not.
-8. One gallery image 404s on the live site as well: a doubled path ending in `calculator02_sxc.png`.
-9. Analytics (Matomo at analytics.prosites.com, site 18531) was not copied.
+## How a message reaches the firm
 
-## Not a cutover
-
-This copy is for review. It is not a replacement of the live domain, and CPA Site Solutions has not been canceled.
+A visitor fills in the form, their email program opens a message to advisor@yourfreshstartsolutions.com, and they press send. If you later want a private inbox inside the site, that needs a sign-in for the firm so client messages are not sitting in a public database. Send the rules when you want that built.
