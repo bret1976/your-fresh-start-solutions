@@ -2,6 +2,15 @@
 
 The public pages, wording, and paths are copied from the current site. The tools below now run on this site, so canceling CPA Site Solutions does not take them with it.
 
+## Owner answers, September 24, 2026
+
+- Domain stays at Wix until a later switch. No date yet. No passwords by email.
+- Mail is already Google Workspace. Public DNS confirms Google MX and Google SPF. Do not edit those records. www currently points at ssl-cpanel2.cpasitesolutions.com.
+- Newsletter list is still at CPA Site Solutions and must be exported before any cancellation. Signup on this site is not a mailing system yet.
+- Client portal links stay. Portal survival after cancellation is unconfirmed.
+- PayConex, Cash App, Venmo, Gumroad, Facebook, LinkedIn, YouTube, and the map stay. A live charge has not been run.
+- Full write-up: /migration-audit.html
+
 ## Replaced on this site
 
 - Financial calculators. All 147 calculators open from the same `/calcloader.php?calc=` links and compute on this site. They are planning illustrations, not a filing product. You can send tighter rules later and they can be adjusted.

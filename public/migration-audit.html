@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Your Fresh Start Solutions — migration audit</title>
+<meta name="robots" content="noindex" />
+<style>
+  :root { --navy:#2e3192; --green:#2f7d32; --amber:#8a5a00; --red:#8d1d1d; --line:#d5deee; }
+  body { margin:0; font:16px/1.5 "Segoe UI", Roboto, sans-serif; color:#1c2140; background:#f4f7fb; }
+  header { background:var(--navy); color:#fff; padding:28px 8vw 22px; }
+  header p { margin:6px 0 0; max-width:760px; }
+  main { max-width:880px; margin:0 auto; padding:24px 20px 64px; }
+  h1 { font-size:32px; margin:0; }
+  h2 { color:var(--navy); margin:28px 0 8px; }
+  .note { background:#fff; border:1px solid var(--line); border-left:6px solid var(--navy); padding:12px 14px; border-radius:8px; }
+  table { width:100%; border-collapse:collapse; background:#fff; }
+  th, td { text-align:left; vertical-align:top; padding:10px 12px; border-bottom:1px solid var(--line); }
+  th { background:#eef2fb; }
+  .pass { color:var(--green); font-weight:700; }
+  .fail { color:var(--red); font-weight:700; }
+  .wait { color:var(--amber); font-weight:700; }
+  .block { color:#fff; background:var(--red); font-weight:700; padding:2px 6px; border-radius:4px; }
+  ul { margin:8px 0 0; padding-left:18px; }
+  code { font-size:0.92em; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Migration audit</h1>
+  <p>Your Fresh Start Solutions LLC. Recorded from the owner’s answers on September 24, 2026. The public site was checked. Nothing was disconnected. No switch date is set.</p>
+</header>
+<main>
+  <p class="note">Short version: the public pages can stand without the old website host. Do not cancel CPA Site Solutions yet. The client portal, the newsletter list, and a real payment test are still open. Google email is already separate, and those DNS records must not be touched.</p>
+
+  <h2>What you told us</h2>
+  <ul>
+    <li>Yes to moving the domain, only after the site is confirmed ready. No date yet.</li>
+    <li>The domain is managed in Wix. You will change DNS yourself, or grant access at that time. No passwords by email.</li>
+    <li>advisor@yourfreshstartsolutions.com is Google Workspace. CPA Site Solutions does not host that mailbox.</li>
+    <li>Keep every Google mail record. Document DNS before any edit.</li>
+    <li>The newsletter list still has to be exported from CPA Site Solutions, then imported into a system we control.</li>
+    <li>Keep January–August 2026, and add older issues if CPA provides them.</li>
+    <li>Leave the client portal as it is. Do not change those links.</li>
+    <li>Keep PayConex, Cash App, Venmo, Gumroad, Facebook, LinkedIn, YouTube, and the Google map. Test them. A live card payment is not done yet.</li>
+    <li>Keep historical traffic stats if CPA will export them.</li>
+  </ul>
+
+  <h2>DNS on file right now</h2>
+  <p>Looked up publicly on September 24, 2026. Nameservers are Wix: <code>ns14.wixdns.net</code> and <code>ns15.wixdns.net</code>. This matches what you said.</p>
+  <table>
+    <tr><th>Record</th><th>Current value</th><th>When we switch</th></tr>
+    <tr><td>A record for the bare domain</td><td><code>44.226.107.251</code></td><td>This is the website. Replace only this, with the address shown on the Vercel domain card that day. Often <code>76.76.21.21</code>. Confirm the card. Do not guess.</td></tr>
+    <tr><td>www</td><td>Points at <code>ssl-cpanel2.cpasitesolutions.com</code>, which is the old host. The bare domain also redirects to www today.</td><td>Replace only this website pointer with the www target on the Vercel card.</td></tr>
+    <tr><td>Mail (MX)</td><td>Google: aspmx.l.google.com, alt1, alt2, alt3, alt4</td><td class="pass">Do not change</td></tr>
+    <tr><td>SPF</td><td><code>v=spf1 include:_spf.google.com ~all</code></td><td class="pass">Do not change</td></tr>
+    <tr><td>Google verification</td><td>A google-site-verification TXT record is present</td><td class="pass">Do not change</td></tr>
+    <tr><td>DMARC</td><td>No public DMARC record was found</td><td>Do not invent one during the switch</td></tr>
+    <tr><td>DKIM</td><td>Not visible under the usual Google name</td><td>In Wix, do not delete any TXT record you do not recognize</td></tr>
+  </table>
+  <p>Stay on Wix nameservers. Do not move DNS to another company. On switch day, only the two website records change. Screenshot the full Wix DNS list before the first edit.</p>
+
+  <h2>Results</h2>
+  <table>
+    <tr><th>Item</th><th>Result</th><th>What that means</th></tr>
+    <tr><td>Public pages, same .php addresses</td><td class="pass">Pass</td><td>110 pages are on the new site. The live site already sends the bare domain to www. Same addresses means no redirect list is required for those pages.</td></tr>
+    <tr><td>Calculators</td><td class="pass">Pass</td><td>All 147 on-site calculators run here. They do not call the old host. One extra link, “What Is My Credit Score?”, still opens CalcXML. A credit score comes from a bureau, so that one was not rebuilt.</td></tr>
+    <tr><td>Tax center, search, newsletter archive, RSS</td><td class="pass">Pass</td><td>January through August 2026 are on the site. Print and the feed no longer use the old host. Older issues can be added when CPA sends them.</td></tr>
+    <tr><td>Old-host scripts on tax and newsletter pages</td><td class="pass">Pass</td><td>Those calls are removed when the page is shown. Portal links were not changed.</td></tr>
+    <tr><td>Google email records</td><td class="pass">Pass</td><td>Mail already points at Google. No mailbox move is required.</td></tr>
+    <tr><td>Pay My Fee, Cash App, Venmo, Gumroad</td><td class="pass">Pass as links</td><td>The buttons leave our site and open those companies. PayConex pages for the main fee and the ebook both answered. Cash App answered. Venmo redirects to yourfreshstartsolutions. Gumroad redirects to a live product page. This is not a charged test.</td></tr>
+    <tr><td>Facebook, LinkedIn, map, YouTube</td><td class="pass">Pass as links</td><td>Facebook and LinkedIn addresses resolve. The map is the Camden embed already on the contact page. SecureSend still uses the portal plus the existing video.</td></tr>
+    <tr><td>Contact forms and newsletter box</td><td class="fail">Fail</td><td>They do not deliver by themselves. The visitor’s own email program opens a message to advisor@. If they never press send, nothing arrives. There is no silent “thank you, we got it.”</td></tr>
+    <tr><td>Newsletter list and sending</td><td class="fail">Not ready</td><td>There is no list, no import, no unsubscribe file, and no send tool on this site. CPA still holds the subscribers. Canceling them before the export deletes the list.</td></tr>
+    <tr><td>Client portal</td><td class="wait">Left as-is</td><td>Login, registration, and portal payment still go to securefirmportal.com. Those links were not edited.</td></tr>
+    <tr><td>Live card payment</td><td class="fail">Not done</td><td>Bluefin is still getting back to you. No test charge has been run through the new site.</td></tr>
+    <tr><td>Analytics</td><td class="fail">Not on the new site</td><td>The old stats were not copied. Nothing new is counting visitors yet. We need the export from CPA, and a decision on which new analytics account to use.</td></tr>
+    <tr><td>Search indexing files</td><td class="pass">Added</td><td>robots.txt and sitemap.xml now list the real page addresses. The temporary vercel.app address is marked noindex by Vercel on purpose. The real domain will not carry that once it is connected.</td></tr>
+    <tr><td>SSL on the real domain</td><td class="wait">Later</td><td>The certificate is issued after the domain is added and the two website records change. Not before.</td></tr>
+    <tr><td>Backup of the website</td><td class="pass">Pass</td><td>The site files are in the project repository. That does not include portal documents or the newsletter list.</td></tr>
+  </table>
+
+  <h2>Blocks canceling CPA Site Solutions</h2>
+  <ul>
+    <li><span class="block">Blocker</span> Written answer from CPA: if the website plan is canceled, does the client portal stay up, and for how long? Do not cancel until that answer is yes, or until the portal has been replaced.</li>
+    <li><span class="block">Blocker</span> Full subscriber export: names, emails, status, opt-in if they have it, unsubscribes, and any groups.</li>
+    <li><span class="block">Blocker</span> A newsletter system we control, able to import that file and handle unsubscribes. Not built yet.</li>
+    <li><span class="block">Blocker</span> Historical analytics export, if you still want it. Ask before the account closes.</li>
+  </ul>
+
+  <h2>Needs a decision from you</h2>
+  <ul>
+    <li>Which system should send the newsletter after CPA. We should not store the subscriber list in a public website database.</li>
+    <li>How contact forms should actually arrive. Best fit with the mailbox you already have: a form service that delivers to Google Workspace. That needs a connection from you, not a password sent by email.</li>
+    <li>Whether to keep the “What Is My Credit Score?” link out to CalcXML, or remove it.</li>
+    <li>Which analytics account to put on the new site.</li>
+    <li>When Bluefin confirms the payment path, you run one small real charge and tell us it landed in the right account.</li>
+  </ul>
+
+  <h2>What happens next, in order</h2>
+  <ol>
+    <li>You ask CPA for the subscriber export, any older newsletters, the traffic export, and a yes or no on the portal surviving without the website plan.</li>
+    <li>We connect a real form-to-email path and a real newsletter tool after you pick them.</li>
+    <li>Bluefin finishes the payment review. You run one controlled charge.</li>
+    <li>We add the domain in the new host and read the exact two website records off the domain card. You screenshot Wix DNS, then change only those two records. Mail records stay.</li>
+    <li>We test the real yourfreshstartsolutions.com address: pages, a form, a calculator, portal login still opening, and one payment link.</li>
+    <li>Only then is CPA Site Solutions eligible to be canceled, and only if the portal answer is safe.</li>
+  </ol>
+  <p>No DNS change was made while writing this.</p>
+</main>
+</body>
+</html>

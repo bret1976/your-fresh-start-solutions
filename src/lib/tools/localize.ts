@@ -10,9 +10,10 @@ export function localizeHtml(html: string): string {
   out = out.replace(/href=["']https?:\/\/www\.cpasitesolutions\.com\/content\/newsletter\/[^"']*["']/gi, 'href="#print" data-local-print="1"');
   out = out.replace(
     /Online information is stored on secure servers located in <a href="[^"]*">CPA Website Solutions<\/a> SOC 1 certified datacenters\./,
-    "Messages sent from this website are delivered by email to the firm. They are not stored in a public database on the site.",
+    "Messages from this website are prepared as an email to the firm. They are not stored on the site.",
   );
   out = out.replace(/href=["']https?:\/\/www\.cpasitesolutions\.com["']/gi, 'href="/clientportal.php"');
+  out = out.replace(/<!--[\s\S]*?securimage[\s\S]*?-->/gi, "");
   out = out.replace(/<img\b[^>]*securimage[^>]*>/gi, "");
   out = out.replace(/action=["']https?:\/\/www\.google\.com\/search["']/gi, 'action="/search.php"');
   out = out.replace(/onclick="clickclear\([^"]*\)"/gi, "");
