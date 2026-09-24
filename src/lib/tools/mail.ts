@@ -1,13 +1,15 @@
 import { EMAIL } from "@/lib/site";
 
-export type MailDraft = { ok: true; mailto: string; text: string; silent?: boolean } | { ok: false; error: string };
+export type MailDraft =
+  | { ok: true; mailto: string; gmail: string; text: string; email?: string; silent?: boolean }
+  | { ok: false; error: string };
 
 const SKIP = new Set(["recipient", "function", "un", "custom5", "submit", "captcha_code", "company_website"]);
 
 export function draftFromForm(form: HTMLFormElement, kind: "inquiry" | "newsletter"): MailDraft {
   const data = new FormData(form);
   const trap = String(data.get("company_website") || "").trim();
-  if (trap) return { ok: true, mailto: "", text: "", silent: true };
+  if (trap) return { ok: true, mailto: "", gmail: "", text: "", silent: true };
   const lines: string[] = [];
   let email = "";
   for (const [key, value] of data.entries()) {
@@ -30,5 +32,7 @@ export function draftFromForm(form: HTMLFormElement, kind: "inquiry" | "newslett
   const subject = kind === "newsletter" ? "Newsletter signup" : "Website inquiry";
   const body = `${lines.join("\n")}\n\nSent from the Your Fresh Start Solutions website.`;
   const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  return { ok: true, mailto, text: body };
+  const gmailBody = body.length > 1500 ? `${body.slice(0, 1500)}…` : body;
+  const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(gmailBody)}`;
+  return { ok: true, mailto, gmail, text: body, email: email || undefined };
 }

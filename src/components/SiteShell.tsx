@@ -1,7 +1,9 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { useRouter } from "@tanstack/react-router";
-import { ADDRESS, EMAIL, PHONE, PHONE_TEL, PORTAL_LOGIN, nav, site, type NavItem } from "@/lib/site";
+import { useRouter, useRouterState } from "@tanstack/react-router";
+import { ADDRESS, EMAIL, PHONE, PHONE_TEL, PORTAL_LOGIN, SECURE_SEND, nav, site, type NavItem } from "@/lib/site";
 import { draftFromForm } from "@/lib/tools/mail";
+import { rememberSubscriber } from "@/lib/tools/subscribers";
+import { recordHit } from "@/lib/tools/traffic";
 
 export function TextLink({
   href,
@@ -112,7 +114,19 @@ export function SiteShell({ children, variant }: { children: ReactNode; variant:
   const router = useRouter();
   const [menu, setMenu] = useState(false);
   const [modal, setModal] = useState<null | "consult" | "login" | "news">(null);
-  const [notice, setNotice] = useState<null | { title: string; body: string; mailto?: string; text?: string }>(null);
+  const [notice, setNotice] = useState<null | { title: string; body: string; mailto?: string; gmail?: string; text?: string }>(null);
+  const path = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    const key = `yfss-hit:${path}`;
+    try {
+      if (sessionStorage.getItem(key)) return;
+      sessionStorage.setItem(key, "1");
+    } catch {
+      return;
+    }
+    void recordHit({ data: { path } }).catch(() => undefined);
+  }, [path]);
 
   useEffect(() => {
     function onSubmit(e: Event) {
@@ -128,7 +142,7 @@ export function SiteShell({ children, variant }: { children: ReactNode; variant:
       }
       const newsletter =
         form.dataset.localNewsletter === "1" || action.includes("cpaemailmarketing.com") || !!form.querySelector('input[name="un"]');
-      const inquiry = form.dataset.unwired === "feedbackmail";
+      const inquiry = form.dataset.unwired === "feedbackmail" || action.includes("feedbackmail");
       if (!newsletter && !inquiry) return;
       e.preventDefault();
       const draft = draftFromForm(form, newsletter ? "newsletter" : "inquiry");
@@ -136,23 +150,29 @@ export function SiteShell({ children, variant }: { children: ReactNode; variant:
         setNotice({ title: "Check the form", body: draft.error });
         return;
       }
-      if (draft.silent) {
-        setNotice({
-          title: newsletter ? "You are on the list" : "Message ready",
-          body: "Thank you.",
-        });
-        return;
-      }
+      if (draft.silent) return;
+      if (newsletter && draft.email) rememberSubscriber(draft.email);
       setNotice({
-        title: newsletter ? "Newsletter request is ready" : "Your message is ready",
-        body: `Nothing is stored on this website. Your email program will open a message to ${EMAIL}. Review it and press send. If no email program opens, copy the message and send it yourself.`,
+        title: newsletter ? "Newsletter signup is ready to send" : "Your message is ready to send",
+        body: `It is not sent until you press send. Nothing is stored in a public database. Open your email app, or Gmail, and the message to ${EMAIL} will be filled in.`,
         mailto: draft.mailto,
+        gmail: draft.gmail,
         text: draft.text,
       });
-      window.location.href = draft.mailto;
     }
     function onClick(e: MouseEvent) {
-      const el = (e.target as HTMLElement | null)?.closest("a");
+      const target = e.target as HTMLElement | null;
+      const control = target?.closest("input, button, a");
+      const onclick = control?.getAttribute("onclick") || "";
+      const label = control instanceof HTMLInputElement ? control.value : control?.textContent || "";
+      if (onclick.includes("openSecureSend") || label.trim() === "Launch" || label.trim() === "Send Us a File") {
+        const opener = (window as Window & { openSecureSend?: () => void }).openSecureSend;
+        if (typeof opener === "function") return;
+        e.preventDefault();
+        window.open(SECURE_SEND, "securesend", "width=560,height=680,scrollbars=1,resizable=1");
+        return;
+      }
+      const el = target?.closest("a");
       if (!el) return;
       const href = el.getAttribute("href") || "";
       if (el.dataset.localPrint === "1" || href.includes("cpasitesolutions.com/content/newsletter")) {
@@ -277,6 +297,10 @@ export function SiteShell({ children, variant }: { children: ReactNode; variant:
             <span className="dot"> · </span>
             <TextLink href="/sitemap.php">Site Map</TextLink>
             <span className="dot"> · </span>
+            <TextLink href="/activity.php">Activity</TextLink>
+            <span className="dot"> · </span>
+            <TextLink href="/newsletter-list.php">Newsletter list</TextLink>
+            <span className="dot"> · </span>
             <TextLink href="/privacy.php">Privacy Policy</TextLink>
             <span className="dot"> · </span>
             <TextLink href="/disclaimer.php">Disclaimer</TextLink>
@@ -314,10 +338,13 @@ export function SiteShell({ children, variant }: { children: ReactNode; variant:
             </button>
             <h2>{notice.title}</h2>
             <p>{notice.body}</p>
-            {notice.mailto ? (
+            {notice.gmail ? (
               <p className="notice-actions">
-                <a className="btn btn-green" href={notice.mailto}>
-                  Open email
+                <a className="btn btn-green" href={notice.gmail} target="_blank" rel="noopener noreferrer">
+                  Open Gmail
+                </a>
+                <a className="btn btn-navy" href={notice.mailto}>
+                  Open email app
                 </a>
                 <button
                   type="button"
@@ -407,7 +434,10 @@ function NewsForm() {
           Subscribe
         </button>
       </form>
-      <p>The request opens an email to the firm. It is not stored on this website.</p>
+      <p>
+        This prepares an email to the firm. It is not sent until you press send. Addresses added on this computer are also kept in the{" "}
+        <TextLink href="/newsletter-list.php">newsletter list</TextLink> on this computer, not in a public database.
+      </p>
     </>
   );
 }

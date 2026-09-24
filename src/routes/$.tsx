@@ -1,6 +1,8 @@
 import { createFileRoute, useRouterState } from "@tanstack/react-router";
 import { CalcLoader } from "@/components/CalcLoader";
+import { ActivityPage } from "@/components/ActivityPage";
 import { InnerPage } from "@/components/InnerPage";
+import { ListDesk } from "@/components/ListDesk";
 import { SiteShell } from "@/components/SiteShell";
 import { getPage } from "@/lib/site";
 
@@ -31,6 +33,24 @@ function CatchAll() {
   const searchStr = useRouterState({ select: (s) => s.location.searchStr });
   if (pathname === "/calcloader.php") {
     return <CalcLoader search={searchStr} />;
+  }
+  if (pathname === "/newsletter-list.php") {
+    return (
+      <SiteShell variant="internal">
+        <div className="wrap page-layout">
+          <ListDesk />
+        </div>
+      </SiteShell>
+    );
+  }
+  if (pathname === "/activity.php") {
+    return (
+      <SiteShell variant="internal">
+        <div className="wrap page-layout">
+          <ActivityPage />
+        </div>
+      </SiteShell>
+    );
   }
   return (
     <SiteShell variant="internal">

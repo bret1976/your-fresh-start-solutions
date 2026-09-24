@@ -13,8 +13,9 @@ export function localizeHtml(html: string): string {
     "Messages from this website are prepared as an email to the firm. They are not stored on the site.",
   );
   out = out.replace(/href=["']https?:\/\/www\.cpasitesolutions\.com["']/gi, 'href="/clientportal.php"');
-  out = out.replace(/<!--[\s\S]*?securimage[\s\S]*?-->/gi, "");
+  out = out.replace(/<!--(?:(?!-->)[\s\S])*securimage(?:(?!-->)[\s\S])*-->/gi, "");
   out = out.replace(/<img\b[^>]*securimage[^>]*>/gi, "");
+  out = out.replace(/<a\b[^>]*securimage[^>]*>[\s\S]*?<\/a>/gi, "");
   out = out.replace(/action=["']https?:\/\/www\.google\.com\/search["']/gi, 'action="/search.php"');
   out = out.replace(/onclick="clickclear\([^"]*\)"/gi, "");
   out = out.replace(/onblur="clickrecall\([^"]*\)"/gi, "");
@@ -22,6 +23,10 @@ export function localizeHtml(html: string): string {
   out = out.replace(
     /href=["']https?:\/\/www\.acctsite\.com\/articles\/i-9\.pdf["']/gi,
     'href="https://www.uscis.gov/i-9"',
+  );
+  out = out.replace(
+    /<a href=["']https?:\/\/www\.calcxml\.com\/calculators\/credit-score-calculator-new["'][^>]*>What Is My Credit Score\?<\/a>/gi,
+    '<a href="/calc-section.php?id=12&category=Credit">Credit card and debt calculators</a>',
   );
   return out;
 }

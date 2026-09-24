@@ -31,6 +31,7 @@ export const PORTAL_REGISTER = "https://www.securefirmportal.com/Account/Registe
 export const PORTAL_PAY = "https://www.securefirmportal.com/Account/Login/69667/?returnURL=/Launch/Payment";
 export const PAYCONEX =
   "https://secure.payconex.net/paymentpage/enhanced/index.php?action=view&aid=120615818311&id=204271";
+export const SECURE_SEND = "https://www.securefirmportal.com/SecureSend/Send/69667";
 export const NEWSLETTER_ACTION = "https://www.cpaemailmarketing.com/client/campsub.php";
 
 export function pageKey(pathname: string, search: string) {
