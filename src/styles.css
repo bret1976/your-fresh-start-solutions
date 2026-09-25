@@ -870,6 +870,7 @@ i.bubble {
   border: 1px solid #c5c5c5;
   padding: 8px 10px;
 }
+.desk-counts {
   font-weight: 700;
   color: var(--color-navy);
 }
