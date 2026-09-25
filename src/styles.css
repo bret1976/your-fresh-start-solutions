@@ -852,7 +852,24 @@ i.bubble {
   padding: 22px 18px 32px;
   margin: 18px 0 28px;
 }
-.desk-counts {
+.desk-steps {
+  margin: 8px 0 16px;
+  padding-left: 20px;
+}
+.desk-paste {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.desk-paste textarea {
+  font: inherit;
+  width: 100%;
+  max-width: 640px;
+  border: 1px solid #c5c5c5;
+  padding: 8px 10px;
+}
   font-weight: 700;
   color: var(--color-navy);
 }

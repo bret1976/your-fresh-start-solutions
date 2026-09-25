@@ -14,6 +14,7 @@ export function ListDesk() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
+  const [pasted, setPasted] = useState("");
 
   const counts = useMemo(() => {
     return {
@@ -44,18 +45,22 @@ export function ListDesk() {
     commit(rows.map((row) => (row.email === address ? { ...row, status } : row)));
   }
 
+  function takeText(text: string, source: string) {
+    const incoming = parseSubscriberCsv(text);
+    if (!incoming.length) {
+      setNote("No email addresses were found. Use the CPA export, or paste one address per line.");
+      return false;
+    }
+    const tagged = incoming.map((row) => ({ ...row, source }));
+    commit(mergeSubscribers(rows, tagged));
+    setNote(`Imported ${incoming.length} addresses onto this computer.`);
+    return true;
+  }
+
   function onFile(file: File | undefined) {
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
-      const incoming = parseSubscriberCsv(String(reader.result || ""));
-      if (!incoming.length) {
-        setNote("No email addresses were found in that file. Use a column named email, or one address per line.");
-        return;
-      }
-      commit(mergeSubscribers(rows, incoming));
-      setNote(`Imported ${incoming.length} addresses onto this computer.`);
-    };
+    reader.onload = () => takeText(String(reader.result || ""), "import");
     reader.readAsText(file);
   }
 
@@ -73,9 +78,15 @@ export function ListDesk() {
     <article className="page-copy desk">
       <h1>Newsletter list</h1>
       <p>
-        Import the CPA Site Solutions export here. The live website is unchanged, and this list stays in this browser until you
-        download it. Unsubscribes and suppressed addresses are kept so they are not treated as active.
+        The addresses are inside CPA’s email tool, not on the website. This page cannot see them. Download the export, then
+        drop it here or paste it below. Do not send the file in email or chat.
       </p>
+      <ol className="desk-steps">
+        <li>Log into the Secure Firm Portal.</li>
+        <li>Open the Email Marketing System.</li>
+        <li>Hover over Contacts and choose Export Contacts.</li>
+        <li>Check Email, First Name, Last Name, and status if it is offered. Choose all lists. Choose CSV. Click Export Contacts.</li>
+      </ol>
       <p className="desk-counts">
         {counts.subscribed} subscribed · {counts.unsubscribed} unsubscribed · {counts.suppressed} suppressed
       </p>
@@ -95,7 +106,20 @@ export function ListDesk() {
           Add as unsubscribed
         </button>
       </div>
+      <label className="desk-paste">
+        Or paste the export here, one address per line
+        <textarea value={pasted} onChange={(e) => setPasted(e.target.value)} rows={6} placeholder={"name@example.com\nname@example.com"} />
+      </label>
       <div className="notice-actions">
+        <button
+          type="button"
+          className="btn btn-green"
+          onClick={() => {
+            if (takeText(pasted, "pasted")) setPasted("");
+          }}
+        >
+          Import pasted addresses
+        </button>
         <label className="btn btn-navy">
           Import CSV
           <input
